@@ -1,0 +1,152 @@
+﻿@model IEnumerable<GMLS_Part2.Models.Contract>
+
+@{
+    ViewData["Title"] = "Contracts";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h1 class="fw-bold">Contracts</h1>
+
+    <a asp-action="Create" class="btn btn-success">
+        + Create Contract
+    </a>
+
+</div>
+
+<table class="table table-bordered table-hover shadow-sm">
+
+    <thead class="table-dark">
+
+        <tr>
+
+            <th>
+                Client
+            </th>
+
+            <th>
+                Start Date
+            </th>
+
+            <th>
+                End Date
+            </th>
+
+            <th>
+                Status
+            </th>
+
+            <th>
+                Service Level
+            </th>
+
+            <th>
+                Agreement
+            </th>
+
+            <th class="text-center">
+                Actions
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.Name)
+                </td>
+
+                <td>
+                    @item.StartDate.ToShortDateString()
+                </td>
+
+                <td>
+                    @item.EndDate.ToShortDateString()
+                </td>
+
+                <td>
+
+                    @if (item.Status == GMLS_Part2.Models.ContractStatus.Active)
+                    {
+                        <span class="badge bg-success">
+                            Active
+                        </span>
+                    }
+                    else if (item.Status == GMLS_Part2.Models.ContractStatus.Expired)
+                    {
+                        <span class="badge bg-danger">
+                            Expired
+                        </span>
+                    }
+                    else if (item.Status == GMLS_Part2.Models.ContractStatus.OnHold)
+                    {
+                        <span class="badge bg-warning text-dark">
+                            On Hold
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">
+                            Draft
+                        </span>
+                    }
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceLevel)
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(item.SignedAgreementPath))
+                    {
+                        <a asp-action="Download"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-success">
+                            Download PDF
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            No File
+                        </span>
+                    }
+
+                </td>
+
+                <td class="text-center">
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id"
+                       class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+
+                    <a asp-action="Details"
+                       asp-route-id="@item.Id"
+                       class="btn btn-sm btn-info text-white">
+                        Details
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.Id"
+                       class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
