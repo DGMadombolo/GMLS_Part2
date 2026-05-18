@@ -12,14 +12,19 @@
         @ViewData["Title"] - SmartContract Hub
     </title>
 
-    <script type="importmap"></script>
-
     <!-- ================================================= -->
     <!-- BOOTSTRAP -->
     <!-- ================================================= -->
 
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- ================================================= -->
+    <!-- BOOTSTRAP ICONS -->
+    <!-- ================================================= -->
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- ================================================= -->
     <!-- SITE CSS -->
@@ -35,7 +40,7 @@
 
 </head>
 
-<body class="bg-light d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100">
 
     <!-- ================================================= -->
     <!-- NAVBAR -->
@@ -43,22 +48,25 @@
 
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
 
-            <div class="container-fluid">
+            <div class="container-fluid px-4">
 
                 <!-- BRAND -->
 
-                <a class="navbar-brand fw-bold"
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
                    asp-area=""
                    asp-controller="Home"
                    asp-action="Index">
+
+                    <i class="bi bi-bar-chart-line-fill fs-4">
+                    </i>
 
                     SmartContract Hub
 
                 </a>
 
-                <!-- MOBILE TOGGLER -->
+                <!-- MOBILE BUTTON -->
 
                 <button class="navbar-toggler"
                         type="button"
@@ -73,22 +81,25 @@
 
                 </button>
 
-                <!-- NAVIGATION LINKS -->
+                <!-- NAVIGATION -->
 
                 <div class="collapse navbar-collapse"
                      id="navbarContent">
 
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
 
-                        <!-- HOME -->
+                        <!-- DASHBOARD -->
 
                         <li class="nav-item">
 
-                            <a class="nav-link text-white"
+                            <a class="nav-link fw-semibold text-white"
                                asp-controller="Home"
                                asp-action="Index">
 
-                                Home
+                                <i class="bi bi-house-door-fill me-1">
+                                </i>
+
+                                Dashboard
 
                             </a>
 
@@ -98,9 +109,12 @@
 
                         <li class="nav-item">
 
-                            <a class="nav-link text-white"
+                            <a class="nav-link fw-semibold text-white"
                                asp-controller="Clients"
                                asp-action="Index">
+
+                                <i class="bi bi-people-fill me-1">
+                                </i>
 
                                 Clients
 
@@ -112,9 +126,12 @@
 
                         <li class="nav-item">
 
-                            <a class="nav-link text-white"
+                            <a class="nav-link fw-semibold text-white"
                                asp-controller="Contracts"
                                asp-action="Index">
+
+                                <i class="bi bi-file-earmark-text-fill me-1">
+                                </i>
 
                                 Contracts
 
@@ -126,9 +143,12 @@
 
                         <li class="nav-item">
 
-                            <a class="nav-link text-white"
+                            <a class="nav-link fw-semibold text-white"
                                asp-controller="ServiceRequests"
                                asp-action="Index">
+
+                                <i class="bi bi-headset me-1">
+                                </i>
 
                                 Service Requests
 
@@ -137,6 +157,21 @@
                         </li>
 
                     </ul>
+
+                    <!-- RIGHT SIDE -->
+
+                    <div class="d-flex align-items-center text-white">
+
+                        <i class="bi bi-person-circle fs-4 me-2">
+                        </i>
+
+                        <span class="fw-semibold">
+
+                            Admin Dashboard
+
+                        </span>
+
+                    </div>
 
                 </div>
 
@@ -150,42 +185,55 @@
     <!-- MAIN CONTENT -->
     <!-- ================================================= -->
 
-    <div class="container mt-4 flex-grow-1">
+    <main class="flex-grow-1">
 
-        <main role="main"
-              class="pb-3">
+        <div class="container-fluid px-4 py-4">
 
             @RenderBody()
 
-        </main>
+        </div>
 
-    </div>
+    </main>
 
     <!-- ================================================= -->
     <!-- FOOTER -->
     <!-- ================================================= -->
 
-    <footer class="bg-dark text-white shadow-sm mt-auto">
+    <footer class="footer shadow-sm mt-auto">
 
         <div class="container-fluid py-3">
 
-            <div class="text-center">
+            <div class="d-flex flex-column flex-md-row
+                        justify-content-between
+                        align-items-center gap-2">
 
-                <span class="fw-bold">
+                <!-- LEFT -->
+
+                <div class="fw-bold text-white">
+
+                    <i class="bi bi-bar-chart-line-fill me-2">
+                    </i>
 
                     SmartContract Hub
 
-                </span>
+                </div>
 
-                &copy; 2026
+                <!-- CENTER -->
 
-                <br />
+                <div class="text-white small">
 
-                <small>
+                    © 2026 SmartContract Hub.
+                    All Rights Reserved.
+
+                </div>
+
+                <!-- RIGHT -->
+
+                <div class="text-white small">
 
                     Developed by Lucky Mkhatshwa
 
-                </small>
+                </div>
 
             </div>
 

@@ -3,77 +3,144 @@
 }
 
 <!-- ================================================= -->
-<!-- WELCOME SECTION -->
+<!-- HERO SECTION -->
 <!-- ================================================= -->
 
-<div class="bg-dark text-white rounded-4 p-5 mb-5 shadow">
+<div class="card shadow-lg border-0 mb-5 overflow-hidden">
 
-    <div class="text-center">
+    <div class="card-body p-5">
 
-        <h1 class="display-4 fw-bold">
+        <div class="row align-items-center">
 
-            Welcome to SmartContract Hub
+            <!-- LEFT -->
 
-        </h1>
+            <div class="col-lg-8">
 
-        <p class="lead mt-3">
+                <span class="badge px-3 py-2 mb-3"
+                      style="background-color:#D2FF28; color:black;">
 
-            Manage clients, contracts, and service requests
-            efficiently in one centralized platform.
+                    Enterprise Dashboard
 
-        </p>
+                </span>
+
+                <h1 class="display-4 fw-bold mb-3">
+
+                    SmartContract Hub
+
+                </h1>
+
+                <p class="lead text-muted mb-4"
+                style="
+                    font-size: 1.45rem;
+                    line-height: 1.9;
+                    max-width: 850px;
+                    font-weight: 500;
+                    ">
+
+                    Manage contracts, clients, service requests,
+                    PDF agreements, and currency conversion from
+                    one centralized enterprise platform.
+
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                    <a asp-controller="Contracts"
+                       asp-action="Create"
+                       class="btn btn-success btn-lg px-4">
+
+                        <i class="bi bi-file-earmark-plus-fill me-2"></i>
+
+                        Create Contract
+
+                    </a>
+
+                    <a asp-controller="ServiceRequests"
+                       asp-action="Create"
+                       class="btn btn-warning btn-lg px-4">
+
+                        <i class="bi bi-headset me-2"></i>
+
+                        New Request
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-4 text-center mt-5 mt-lg-0">
+
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                     style="width:180px;
+                            height:180px;
+                            background:linear-gradient(135deg,#436436,#420217);
+                            color:white;">
+
+                    <div>
+
+                        <i class="bi bi-bar-chart-line-fill display-3"></i>
+
+                        <div class="fw-bold mt-2">
+
+                            Dashboard Analytics
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
 <!-- ================================================= -->
-<!-- DASHBOARD CARDS -->
+<!-- STATISTICS -->
 <!-- ================================================= -->
 
 <div class="row g-4 mb-5">
 
-    <!-- TOTAL CLIENTS -->
+    <!-- CLIENTS -->
 
-    <div class="col-md-3">
+    <div class="col-xl-3 col-md-6">
 
-        <div class="card shadow border-0 h-100">
+        <div class="card dashboard-card shadow border-0 h-100">
 
-            <div class="card-body text-center">
+            <div class="card-body">
 
-                <h5 class="card-title text-muted">
-                    Total Clients
-                </h5>
+                <div class="d-flex justify-content-between align-items-center mb-3">
 
-                <h2 class="fw-bold text-primary">
+                    <div>
 
-                    @ViewBag.TotalClients
+                        <div class="text-muted fw-semibold">
 
-                </h2>
+                            Total Clients
 
-            </div>
+                        </div>
 
-        </div>
+                        <h1 class="fw-bold mb-0">
 
-    </div>
+                            @ViewBag.TotalClients
 
-    <!-- TOTAL CONTRACTS -->
+                        </h1>
 
-    <div class="col-md-3">
+                    </div>
 
-        <div class="card shadow border-0 h-100">
+                    <div class="rounded-4 p-3"
+                         style="background-color:#436436; color:white;">
 
-            <div class="card-body text-center">
+                        <i class="bi bi-people-fill fs-1"></i>
 
-                <h5 class="card-title text-muted">
-                    Total Contracts
-                </h5>
+                    </div>
 
-                <h2 class="fw-bold text-success">
-
-                    @ViewBag.TotalContracts
-
-                </h2>
+                </div>
 
             </div>
 
@@ -81,47 +148,40 @@
 
     </div>
 
-    <!-- ACTIVE CONTRACTS -->
+    <!-- CONTRACTS -->
 
-    <div class="col-md-3">
+    <div class="col-xl-3 col-md-6">
 
-        <div class="card shadow border-0 h-100">
+        <div class="card dashboard-card shadow border-0 h-100">
 
-            <div class="card-body text-center">
+            <div class="card-body">
 
-                <h5 class="card-title text-muted">
-                    Active Contracts
-                </h5>
+                <div class="d-flex justify-content-between align-items-center mb-3">
 
-                <h2 class="fw-bold text-warning">
+                    <div>
 
-                    @ViewBag.ActiveContracts
+                        <div class="text-muted fw-semibold">
 
-                </h2>
+                            Contracts
 
-            </div>
+                        </div>
 
-        </div>
+                        <h1 class="fw-bold mb-0">
 
-    </div>
+                            @ViewBag.TotalContracts
 
-    <!-- TOTAL REQUESTS -->
+                        </h1>
 
-    <div class="col-md-3">
+                    </div>
 
-        <div class="card shadow border-0 h-100">
+                    <div class="rounded-4 p-3"
+                         style="background-color:#D2FF28; color:black;">
 
-            <div class="card-body text-center">
+                        <i class="bi bi-file-earmark-text-fill fs-1"></i>
 
-                <h5 class="card-title text-muted">
-                    Total Requests
-                </h5>
+                    </div>
 
-                <h2 class="fw-bold text-danger">
-
-                    @ViewBag.TotalRequests
-
-                </h2>
+                </div>
 
             </div>
 
@@ -129,111 +189,81 @@
 
     </div>
 
-</div>
+    <!-- ACTIVE -->
 
-<!-- ================================================= -->
-<!-- QUICK ACTIONS -->
-<!-- ================================================= -->
+    <div class="col-xl-3 col-md-6">
 
-<div class="card shadow border-0 mb-5">
+        <div class="card dashboard-card shadow border-0 h-100">
 
-    <div class="card-header bg-primary text-white">
+            <div class="card-body">
 
-        <h4 class="mb-0">
-            Quick Actions
-        </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
 
-    </div>
+                    <div>
 
-    <div class="card-body">
+                        <div class="text-muted fw-semibold">
 
-        <div class="d-flex flex-wrap gap-3">
+                            Active Contracts
 
-            <a asp-controller="Clients"
-               asp-action="Create"
-               class="btn btn-primary">
+                        </div>
 
-                + Create Client
+                        <h1 class="fw-bold mb-0">
 
-            </a>
+                            @ViewBag.ActiveContracts
 
-            <a asp-controller="Contracts"
-               asp-action="Create"
-               class="btn btn-success">
+                        </h1>
 
-                + Create Contract
+                    </div>
 
-            </a>
+                    <div class="rounded-4 p-3"
+                         style="background-color:#C84C09; color:white;">
 
-            <a asp-controller="ServiceRequests"
-               asp-action="Create"
-               class="btn btn-warning text-dark">
+                        <i class="bi bi-check-circle-fill fs-1"></i>
 
-                + Create Service Request
+                    </div>
 
-            </a>
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <!-- REQUESTS -->
 
-<!-- ================================================= -->
-<!-- SYSTEM FEATURES -->
-<!-- ================================================= -->
+    <div class="col-xl-3 col-md-6">
 
-<div class="card shadow border-0">
+        <div class="card dashboard-card shadow border-0 h-100">
 
-    <div class="card-header bg-dark text-white">
+            <div class="card-body">
 
-        <h4 class="mb-0">
-            System Features
-        </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
 
-    </div>
+                    <div>
 
-    <div class="card-body">
+                        <div class="text-muted fw-semibold">
 
-        <div class="row">
+                            Service Requests
 
-            <div class="col-md-6">
+                        </div>
 
-                <ul class="list-group list-group-flush">
+                        <h1 class="fw-bold mb-0">
 
-                    <li class="list-group-item">
-                        ✔ Client Management
-                    </li>
+                            @ViewBag.TotalRequests
 
-                    <li class="list-group-item">
-                        ✔ Contract Tracking
-                    </li>
+                        </h1>
 
-                    <li class="list-group-item">
-                        ✔ PDF Upload & Download
-                    </li>
+                    </div>
 
-                </ul>
+                    <div class="rounded-4 p-3"
+                         style="background-color:#420217; color:white;">
 
-            </div>
+                        <i class="bi bi-headset fs-1"></i>
 
-            <div class="col-md-6">
+                    </div>
 
-                <ul class="list-group list-group-flush">
-
-                    <li class="list-group-item">
-                        ✔ Currency Conversion (USD → ZAR)
-                    </li>
-
-                    <li class="list-group-item">
-                        ✔ Service Request Management
-                    </li>
-
-                    <li class="list-group-item">
-                        ✔ Search & Filtering
-                    </li>
-
-                </ul>
+                </div>
 
             </div>
 
