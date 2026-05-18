@@ -98,17 +98,27 @@ GMLS_Part2/
 
 # Setup Instructions
 
+# Setup Instructions
+
 ## 1. Clone Repository
 
-```bash
+Open:
+
+```text
+GitHub Desktop
+```
+
+OR clone using:
+
+```text
 git clone https://github.com/DGMadombolo/GMLS_Part2.git
 ```
 
 ---
 
-## 2. Open Project
+## 2. Open the Project
 
-Open the solution in:
+Open the solution file in:
 
 ```text
 Visual Studio 2022
@@ -116,34 +126,60 @@ Visual Studio 2022
 
 ---
 
-## 3. Restore Packages
+## 3. Restore NuGet Packages
 
-```bash
-dotnet restore
+In Visual Studio:
+
+```text
+Tools
+→ NuGet Package Manager
+→ Manage NuGet Packages for Solution
 ```
+
+Restore all missing packages.
 
 ---
 
-## 4. Apply Database Migrations
+## 4. Configure Database
 
-```bash
-dotnet ef database update
+Open:
+
+```text
+Package Manager Console
 ```
+
+Run:
+
+```powershell
+Update-Database
+```
+
+This will create the SQL Server LocalDB database automatically.
 
 ---
 
-## 5. Run Application
+## 5. Run the Application
 
-```bash
+Press:
+
+```text
 Ctrl + F5
 ```
 
-OR:
+OR click:
 
-```bash
-dotnet run
+```text
+Start Without Debugging
 ```
 
+---
+
+# Requirements
+
+- Windows 10/11
+- Visual Studio 2022
+- SQL Server LocalDB
+- .NET 8 SDK
 ---
 
 # Dashboard Preview
