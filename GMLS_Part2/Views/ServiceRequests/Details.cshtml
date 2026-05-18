@@ -1,48 +1,115 @@
 ﻿@model GMLS_Part2.Models.ServiceRequest
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Service Request Details";
 }
 
-<h1>Details</h1>
+<div class="container">
 
-<div>
-    <h4>ServiceRequest</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contract)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contract.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CostUSD)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CostUSD)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CostZAR)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CostZAR)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-info text-white">
+
+            <h3 class="mb-0">
+                Service Request Details
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <dl class="row">
+
+                <!-- Contract -->
+
+                <dt class="col-sm-3 fw-bold">
+                    Contract ID
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.Contract.Id
+                </dd>
+
+                <!-- Description -->
+
+                <dt class="col-sm-3 fw-bold">
+                    Description
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.Description
+                </dd>
+
+                <!-- USD -->
+
+                <dt class="col-sm-3 fw-bold">
+                    Cost (USD)
+                </dt>
+
+                <dd class="col-sm-9">
+                    $@Model.CostUSD
+                </dd>
+
+                <!-- ZAR -->
+
+                <dt class="col-sm-3 fw-bold">
+                    Cost (ZAR)
+                </dt>
+
+                <dd class="col-sm-9">
+                    R @Model.CostZAR
+                </dd>
+
+                <!-- Status -->
+
+                <dt class="col-sm-3 fw-bold">
+                    Status
+                </dt>
+
+                <dd class="col-sm-9">
+
+                    @if (Model.Status == GMLS_Part2.Models.RequestStatus.Pending)
+                    {
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+                    }
+                    else if (Model.Status == GMLS_Part2.Models.RequestStatus.InProgress)
+                    {
+                        <span class="badge bg-primary">
+                            In Progress
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">
+                            Completed
+                        </span>
+                    }
+
+                </dd>
+
+            </dl>
+
+            <!-- Buttons -->
+
+            <div class="mt-4 d-flex gap-2">
+
+                <a asp-action="Edit"
+                   asp-route-id="@Model?.Id"
+                   class="btn btn-warning text-dark">
+                    Edit
+                </a>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Back to List
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

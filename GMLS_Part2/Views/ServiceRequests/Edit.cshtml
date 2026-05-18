@@ -1,54 +1,163 @@
 ﻿@model GMLS_Part2.Models.ServiceRequest
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Service Request";
 }
 
-<h1>Edit</h1>
+<div class="container">
 
-<h4>ServiceRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="ContractId" class="control-label"></label>
-                <select asp-for="ContractId" class="form-control" asp-items="ViewBag.ContractId"></select>
-                <span asp-validation-for="ContractId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CostUSD" class="control-label"></label>
-                <input asp-for="CostUSD" class="form-control" />
-                <span asp-validation-for="CostUSD" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CostZAR" class="control-label"></label>
-                <input asp-for="CostZAR" class="form-control" />
-                <span asp-validation-for="CostZAR" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-warning">
+
+            <h3 class="mb-0 text-dark">
+                Edit Service Request
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Edit">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Contract -->
+
+                <div class="mb-3">
+
+                    <label asp-for="ContractId"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <select asp-for="ContractId"
+                            class="form-select"
+                            asp-items="ViewBag.ContractId">
+
+                        <option value="">
+                            -- Select Contract --
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="ContractId"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- Description -->
+
+                <div class="mb-3">
+
+                    <label asp-for="Description"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="4">
+                    </textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- USD Cost -->
+
+                <div class="mb-3">
+
+                    <label asp-for="CostUSD"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            $
+                        </span>
+
+                        <input asp-for="CostUSD"
+                               class="form-control"
+                               placeholder="Enter amount in USD" />
+
+                    </div>
+
+                    <small class="text-muted">
+                        ZAR value will be recalculated automatically.
+                    </small>
+
+                    <span asp-validation-for="CostUSD"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- Display Current ZAR -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Current Cost (ZAR)
+                    </label>
+
+                    <input value="R @Model.CostZAR"
+                           class="form-control"
+                           readonly />
+
+                </div>
+
+                <!-- Status -->
+
+                <div class="mb-4">
+
+                    <label asp-for="Status"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <select asp-for="Status"
+                            class="form-select"
+                            asp-items="Html.GetEnumSelectList<GMLS_Part2.Models.RequestStatus>()">
+                    </select>
+
+                    <span asp-validation-for="Status"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-warning text-dark">
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        Back to List
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

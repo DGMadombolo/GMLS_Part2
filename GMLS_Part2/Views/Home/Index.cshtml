@@ -1,8 +1,244 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- ================================================= -->
+<!-- WELCOME SECTION -->
+<!-- ================================================= -->
+
+<div class="bg-dark text-white rounded-4 p-5 mb-5 shadow">
+
+    <div class="text-center">
+
+        <h1 class="display-4 fw-bold">
+
+            Welcome to SmartContract Hub
+
+        </h1>
+
+        <p class="lead mt-3">
+
+            Manage clients, contracts, and service requests
+            efficiently in one centralized platform.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- DASHBOARD CARDS -->
+<!-- ================================================= -->
+
+<div class="row g-4 mb-5">
+
+    <!-- TOTAL CLIENTS -->
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="card-title text-muted">
+                    Total Clients
+                </h5>
+
+                <h2 class="fw-bold text-primary">
+
+                    @ViewBag.TotalClients
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOTAL CONTRACTS -->
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="card-title text-muted">
+                    Total Contracts
+                </h5>
+
+                <h2 class="fw-bold text-success">
+
+                    @ViewBag.TotalContracts
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIVE CONTRACTS -->
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="card-title text-muted">
+                    Active Contracts
+                </h5>
+
+                <h2 class="fw-bold text-warning">
+
+                    @ViewBag.ActiveContracts
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOTAL REQUESTS -->
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 h-100">
+
+            <div class="card-body text-center">
+
+                <h5 class="card-title text-muted">
+                    Total Requests
+                </h5>
+
+                <h2 class="fw-bold text-danger">
+
+                    @ViewBag.TotalRequests
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- QUICK ACTIONS -->
+<!-- ================================================= -->
+
+<div class="card shadow border-0 mb-5">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4 class="mb-0">
+            Quick Actions
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="d-flex flex-wrap gap-3">
+
+            <a asp-controller="Clients"
+               asp-action="Create"
+               class="btn btn-primary">
+
+                + Create Client
+
+            </a>
+
+            <a asp-controller="Contracts"
+               asp-action="Create"
+               class="btn btn-success">
+
+                + Create Contract
+
+            </a>
+
+            <a asp-controller="ServiceRequests"
+               asp-action="Create"
+               class="btn btn-warning text-dark">
+
+                + Create Service Request
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- SYSTEM FEATURES -->
+<!-- ================================================= -->
+
+<div class="card shadow border-0">
+
+    <div class="card-header bg-dark text-white">
+
+        <h4 class="mb-0">
+            System Features
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+                        ✔ Client Management
+                    </li>
+
+                    <li class="list-group-item">
+                        ✔ Contract Tracking
+                    </li>
+
+                    <li class="list-group-item">
+                        ✔ PDF Upload & Download
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+                        ✔ Currency Conversion (USD → ZAR)
+                    </li>
+
+                    <li class="list-group-item">
+                        ✔ Service Request Management
+                    </li>
+
+                    <li class="list-group-item">
+                        ✔ Search & Filtering
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

@@ -6,13 +6,94 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h1 class="fw-bold">Contracts</h1>
+    <h1 class="fw-bold">
+        Contracts
+    </h1>
 
-    <a asp-action="Create" class="btn btn-success">
+    <a asp-action="Create"
+       class="btn btn-success">
         + Create Contract
     </a>
 
 </div>
+
+<!-- ===================================================== -->
+<!-- SEARCH / FILTER -->
+<!-- ===================================================== -->
+
+<form method="get"
+      class="row g-3 mb-4">
+
+    <!-- STATUS -->
+
+    <div class="col-md-3">
+
+        <label class="form-label fw-bold">
+            Status
+        </label>
+
+        <select name="status"
+                class="form-select">
+
+            <option value="">
+                All Statuses
+            </option>
+
+            @foreach (var status in Enum.GetValues(typeof(GMLS_Part2.Models.ContractStatus)))
+            {
+                <option value="@status">
+                    @status
+                </option>
+            }
+
+        </select>
+
+    </div>
+
+    <!-- START DATE -->
+
+    <div class="col-md-3">
+
+        <label class="form-label fw-bold">
+            Start Date
+        </label>
+
+        <input type="date"
+               name="startDate"
+               class="form-control" />
+
+    </div>
+
+    <!-- END DATE -->
+
+    <div class="col-md-3">
+
+        <label class="form-label fw-bold">
+            End Date
+        </label>
+
+        <input type="date"
+               name="endDate"
+               class="form-control" />
+
+    </div>
+
+    <!-- SEARCH BUTTON -->
+
+    <div class="col-md-3 d-flex align-items-end">
+
+        <button type="submit"
+                class="btn btn-dark w-100">
+            Search / Filter
+        </button>
+
+    </div>
+
+</form>
+
+<!-- ===================================================== -->
+<!-- CONTRACT TABLE -->
+<!-- ===================================================== -->
 
 <table class="table table-bordered table-hover shadow-sm">
 
@@ -54,93 +135,123 @@
 
     <tbody>
 
-        @foreach (var item in Model)
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <!-- CLIENT -->
+
+                    <td>
+                        @(item.Client?.Name ?? "No Client")
+                    </td>
+
+                    <!-- START DATE -->
+
+                    <td>
+                        @item.StartDate.ToShortDateString()
+                    </td>
+
+                    <!-- END DATE -->
+
+                    <td>
+                        @item.EndDate.ToShortDateString()
+                    </td>
+
+                    <!-- STATUS -->
+
+                    <td>
+
+                        @if (item.Status == GMLS_Part2.Models.ContractStatus.Active)
+                        {
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+                        }
+                        else if (item.Status == GMLS_Part2.Models.ContractStatus.Expired)
+                        {
+                            <span class="badge bg-danger">
+                                Expired
+                            </span>
+                        }
+                        else if (item.Status == GMLS_Part2.Models.ContractStatus.OnHold)
+                        {
+                            <span class="badge bg-warning text-dark">
+                                On Hold
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Draft
+                            </span>
+                        }
+
+                    </td>
+
+                    <!-- SERVICE LEVEL -->
+
+                    <td>
+                        @item.ServiceLevel
+                    </td>
+
+                    <!-- PDF -->
+
+                    <td>
+
+                        @if (!string.IsNullOrEmpty(item.SignedAgreementPath))
+                        {
+                            <a asp-action="Download"
+                               asp-route-id="@item.Id"
+                               class="btn btn-sm btn-success">
+                                Download PDF
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">
+                                No File
+                            </span>
+                        }
+
+                    </td>
+
+                    <!-- ACTIONS -->
+
+                    <td class="text-center">
+
+                        <a asp-action="Edit"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-warning">
+                            Edit
+                        </a>
+
+                        <a asp-action="Details"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-info text-white">
+                            Details
+                        </a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@item.Id"
+                           class="btn btn-sm btn-danger">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+        }
+        else
         {
             <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Client.Name)
-                </td>
+                <td colspan="7"
+                    class="text-center text-muted">
 
-                <td>
-                    @item.StartDate.ToShortDateString()
-                </td>
-
-                <td>
-                    @item.EndDate.ToShortDateString()
-                </td>
-
-                <td>
-
-                    @if (item.Status == GMLS_Part2.Models.ContractStatus.Active)
-                    {
-                        <span class="badge bg-success">
-                            Active
-                        </span>
-                    }
-                    else if (item.Status == GMLS_Part2.Models.ContractStatus.Expired)
-                    {
-                        <span class="badge bg-danger">
-                            Expired
-                        </span>
-                    }
-                    else if (item.Status == GMLS_Part2.Models.ContractStatus.OnHold)
-                    {
-                        <span class="badge bg-warning text-dark">
-                            On Hold
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">
-                            Draft
-                        </span>
-                    }
-
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.ServiceLevel)
-                </td>
-
-                <td>
-
-                    @if (!string.IsNullOrEmpty(item.SignedAgreementPath))
-                    {
-                        <a asp-action="Download"
-                           asp-route-id="@item.Id"
-                           class="btn btn-sm btn-success">
-                            Download PDF
-                        </a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">
-                            No File
-                        </span>
-                    }
-
-                </td>
-
-                <td class="text-center">
-
-                    <a asp-action="Edit"
-                       asp-route-id="@item.Id"
-                       class="btn btn-sm btn-warning">
-                        Edit
-                    </a>
-
-                    <a asp-action="Details"
-                       asp-route-id="@item.Id"
-                       class="btn btn-sm btn-info text-white">
-                        Details
-                    </a>
-
-                    <a asp-action="Delete"
-                       asp-route-id="@item.Id"
-                       class="btn btn-sm btn-danger">
-                        Delete
-                    </a>
+                    No contracts found.
 
                 </td>
 

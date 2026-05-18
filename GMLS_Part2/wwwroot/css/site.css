@@ -1,31 +1,306 @@
+/* ===================================================== */
+/* SMARTCONTRACT HUB THEME */
+/* ===================================================== */
+
+:root {
+    --primary-green: #436436;
+    --lime-cream: #D6F599;
+    --chartreuse: #D2FF28;
+    --spicy-orange: #C84C09;
+    --night-bordeaux: #420217;
+}
+
+/* ===================================================== */
+/* GLOBAL SETTINGS */
+/* ===================================================== */
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
+/* ===================================================== */
+/* BODY */
+/* ===================================================== */
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--lime-cream);
+    color: #212529;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* ===================================================== */
+/* FOCUS STYLING */
+/* ===================================================== */
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem var(--chartreuse);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* ===================================================== */
+/* NAVBAR */
+/* ===================================================== */
+
+.navbar {
+    background-color: var(--night-bordeaux) !important;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    transition: 0.3s ease;
+}
+
+    .nav-link:hover {
+        color: var(--chartreuse) !important;
+    }
+
+/* ===================================================== */
+/* FOOTER */
+/* ===================================================== */
+
+footer {
+    background-color: var(--night-bordeaux) !important;
+    color: white !important;
+}
+
+/* ===================================================== */
+/* CARDS */
+/* ===================================================== */
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===================================================== */
+/* CARD HEADERS */
+/* ===================================================== */
+
+.card-header.bg-primary {
+    background-color: var(--primary-green) !important;
+    color: white !important;
+}
+
+.card-header.bg-success {
+    background-color: var(--chartreuse) !important;
+    color: black !important;
+}
+
+.card-header.bg-warning {
+    background-color: var(--spicy-orange) !important;
+    color: white !important;
+}
+
+.card-header.bg-dark {
+    background-color: var(--night-bordeaux) !important;
+    color: white !important;
+}
+
+.card-header.bg-info {
+    background-color: var(--primary-green) !important;
+    color: white !important;
+}
+
+.card-header.bg-danger {
+    background-color: var(--night-bordeaux) !important;
+    color: white !important;
+}
+
+/* ===================================================== */
+/* BUTTONS */
+/* ===================================================== */
+
+.btn {
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+/* PRIMARY */
+
+.btn-primary {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+    .btn-primary:hover {
+        background-color: #35512b;
+        border-color: #35512b;
+    }
+
+/* SUCCESS */
+
+.btn-success {
+    background-color: var(--chartreuse);
+    border-color: var(--chartreuse);
+    color: black;
+}
+
+    .btn-success:hover {
+        background-color: #b8e600;
+        border-color: #b8e600;
+        color: black;
+    }
+
+/* WARNING */
+
+.btn-warning {
+    background-color: var(--spicy-orange);
+    border-color: var(--spicy-orange);
+    color: white;
+}
+
+    .btn-warning:hover {
+        background-color: #a53d06;
+        border-color: #a53d06;
+        color: white;
+    }
+
+/* DANGER */
+
+.btn-danger {
+    background-color: var(--night-bordeaux);
+    border-color: var(--night-bordeaux);
+}
+
+    .btn-danger:hover {
+        background-color: #2e0110;
+        border-color: #2e0110;
+    }
+
+/* INFO */
+
+.btn-info {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+}
+
+    .btn-info:hover {
+        background-color: #35512b;
+        border-color: #35512b;
+        color: white;
+    }
+
+/* ===================================================== */
+/* TABLES */
+/* ===================================================== */
+
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-dark {
+    background-color: var(--primary-green) !important;
+    color: white;
+}
+
+/* ===================================================== */
+/* BADGES */
+/* ===================================================== */
+
+.badge.bg-success {
+    background-color: var(--primary-green) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--spicy-orange) !important;
+    color: white !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--night-bordeaux) !important;
+}
+
+.badge.bg-primary {
+    background-color: var(--chartreuse) !important;
+    color: black !important;
+}
+
+/* ===================================================== */
+/* LINKS */
+/* ===================================================== */
+
+a {
+    text-decoration: none;
+}
+
+/* ===================================================== */
+/* FORM CONTROLS */
+/* ===================================================== */
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--chartreuse);
+    }
+
+/* ===================================================== */
+/* FORM FLOATING */
+/* ===================================================== */
+
+.form-floating >
+.form-control-plaintext::placeholder,
+.form-floating >
+.form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating >
+.form-control-plaintext:focus::placeholder,
+.form-floating >
+.form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* ===================================================== */
+/* DASHBOARD CARDS */
+/* ===================================================== */
+
+.dashboard-card {
+    transition: 0.3s ease;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+/* ===================================================== */
+/* SHADOWS */
+/* ===================================================== */
+
+.shadow-sm {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+
+.shadow {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
 }

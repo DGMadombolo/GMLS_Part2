@@ -1,59 +1,230 @@
 ﻿@model GMLS_Part2.Models.Contract
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Contract";
 }
 
-<h1>Edit</h1>
+<div class="container">
 
-<h4>Contract</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="ClientId" class="control-label"></label>
-                <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
-                <span asp-validation-for="ClientId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ServiceLevel" class="control-label"></label>
-                <input asp-for="ServiceLevel" class="form-control" />
-                <span asp-validation-for="ServiceLevel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SignedAgreementPath" class="control-label"></label>
-                <input asp-for="SignedAgreementPath" class="form-control" />
-                <span asp-validation-for="SignedAgreementPath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="card shadow-lg border-0">
+
+        <!-- ================================================= -->
+        <!-- HEADER -->
+        <!-- ================================================= -->
+
+        <div class="card-header bg-warning">
+
+            <h3 class="mb-0 text-white">
+
+                Edit Contract
+
+            </h3>
+
+        </div>
+
+        <!-- ================================================= -->
+        <!-- BODY -->
+        <!-- ================================================= -->
+
+        <div class="card-body">
+
+            <form asp-action="Edit"
+                  enctype="multipart/form-data">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <!-- CLIENT -->
+
+                <div class="mb-3">
+
+                    <label asp-for="ClientId"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <select asp-for="ClientId"
+                            class="form-select"
+                            asp-items="ViewBag.ClientId">
+
+                        <option value="">
+                            -- Select Client --
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="ClientId"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- START DATE -->
+
+                <div class="mb-3">
+
+                    <label asp-for="StartDate"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <input asp-for="StartDate"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="StartDate"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- END DATE -->
+
+                <div class="mb-3">
+
+                    <label asp-for="EndDate"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <input asp-for="EndDate"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="EndDate"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- STATUS -->
+
+                <div class="mb-3">
+
+                    <label asp-for="Status"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <select asp-for="Status"
+                            class="form-select"
+                            asp-items="Html.GetEnumSelectList<GMLS_Part2.Models.ContractStatus>()">
+                    </select>
+
+                    <span asp-validation-for="Status"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- SERVICE LEVEL -->
+
+                <div class="mb-3">
+
+                    <label asp-for="ServiceLevel"
+                           class="form-label fw-bold">
+                    </label>
+
+                    <input asp-for="ServiceLevel"
+                           class="form-control"
+                           placeholder="Enter service level..." />
+
+                    <span asp-validation-for="ServiceLevel"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- CURRENT FILE -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+
+                        Current Agreement File
+
+                    </label>
+
+                    <div>
+
+                        @if (!string.IsNullOrEmpty(
+                                                Model.SignedAgreementPath))
+                        {
+                            <a asp-action="Download"
+                               asp-route-id="@Model.Id"
+                               class="btn btn-success btn-sm">
+
+                                Download Current PDF
+
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">
+
+                                No file uploaded
+
+                            </span>
+                        }
+
+                    </div>
+
+                </div>
+
+                <!-- NEW PDF -->
+
+                <div class="mb-4">
+
+                    <label asp-for="AgreementFile"
+                           class="form-label fw-bold">
+
+                        Upload New Agreement (PDF)
+
+                    </label>
+
+                    <input asp-for="AgreementFile"
+                           type="file"
+                           class="form-control"
+                           accept=".pdf" />
+
+                    <span asp-validation-for="AgreementFile"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- BUTTONS -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-warning">
+
+                        Save Changes
+
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+
+                        Back to List
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
 }

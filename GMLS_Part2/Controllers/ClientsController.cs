@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GMLS_Part2.Data;
 using GMLS_Part2.Models;
@@ -19,139 +14,191 @@ namespace GMLS_Part2.Controllers
             _context = context;
         }
 
-        // GET: Clients
-        public async Task<IActionResult> Index()
+        // =====================================================
+        // INDEX + SEARCH/FILTER
+        // =====================================================
+
+        public async Task<IActionResult> Index(
+            string? searchTerm,
+            string? region)
         {
-            return View(await _context.Clients.ToListAsync());
+            var clients = _context.Clients
+                .AsQueryable();
+
+            // =============================================
+            // SEARCH CLIENT NAME
+            // =============================================
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                clients = clients.Where(c =>
+                    c.Name.Contains(searchTerm));
+            }
+
+            // =============================================
+            // FILTER REGION
+            // =============================================
+
+            if (!string.IsNullOrWhiteSpace(region))
+            {
+                clients = clients.Where(c =>
+                    c.Region.Contains(region));
+            }
+
+            return View(await clients.ToListAsync());
         }
 
-        // GET: Clients/Details/5
+        // =====================================================
+        // DETAILS
+        // =====================================================
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (client == null)
-            {
                 return NotFound();
-            }
 
             return View(client);
         }
 
-        // GET: Clients/Create
+        // =====================================================
+        // CREATE GET
+        // =====================================================
+
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Clients/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // =====================================================
+        // CREATE POST
+        // =====================================================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ContactDetails,Region")] Client client)
+        public async Task<IActionResult> Create(
+            [Bind("Id,Name,ContactDetails,Region")]
+            Client client)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(client);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(client);
         }
 
-        // GET: Clients/Edit/5
+        // =====================================================
+        // EDIT GET
+        // =====================================================
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var client = await _context.Clients.FindAsync(id);
+            var client =
+                await _context.Clients.FindAsync(id);
+
             if (client == null)
-            {
                 return NotFound();
-            }
+
             return View(client);
         }
 
-        // POST: Clients/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // =====================================================
+        // EDIT POST
+        // =====================================================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ContactDetails,Region")] Client client)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Id,Name,ContactDetails,Region")]
+            Client client)
         {
             if (id != client.Id)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(client);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClientExists(client.Id))
-                    {
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(client);
         }
 
-        // GET: Clients/Delete/5
+        // =====================================================
+        // DELETE GET
+        // =====================================================
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (client == null)
-            {
                 return NotFound();
-            }
 
             return View(client);
         }
 
-        // POST: Clients/Delete/5
+        // =====================================================
+        // DELETE POST
+        // =====================================================
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(
+            int id)
         {
-            var client = await _context.Clients.FindAsync(id);
+            var client =
+                await _context.Clients.FindAsync(id);
+
             if (client != null)
             {
                 _context.Clients.Remove(client);
+
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        // =====================================================
+        // EXISTS
+        // =====================================================
+
         private bool ClientExists(int id)
         {
-            return _context.Clients.Any(e => e.Id == id);
+            return _context.Clients
+                .Any(e => e.Id == id);
         }
     }
 }
