@@ -101,7 +101,7 @@ GMLS_Part2/
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/SmartContractHub.git
+git clone https://github.com/DGMadombolo/GMLS_Part2.git
 ```
 
 ---
