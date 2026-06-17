@@ -1,182 +1,225 @@
-# SmartContract Hub
+# SmartContract Hub (GLMS Part 2)
 
-SmartContract Hub is a modern enterprise-style ASP.NET Core MVC web application designed for managing clients, contracts, service requests, PDF agreements, and automated currency conversion.
+SmartContract Hub is a modern enterprise-style ASP.NET Core solution built using a Service-Oriented Architecture (SOA) approach.
 
-The system provides a centralized platform for organizations to efficiently manage contract lifecycles, customer records, service operations, and agreement documentation.
+The solution consists of:
+
+* ASP.NET Core MVC Application (Frontend)
+* ASP.NET Core Web API (Backend Services)
+* Entity Framework Core
+* SQL Server LocalDB
+* Swagger/OpenAPI Documentation
+* DTO-based API Communication
+
+The platform enables organizations to manage clients, contracts, service requests, agreement documentation, and automated currency conversion through a centralized management system.
+
+---
+
+# Architecture
+
+```text
+┌─────────────────────┐
+│ ASP.NET Core MVC    │
+│ (Presentation Layer)│
+└──────────┬──────────┘
+           │ HTTP Calls
+           ▼
+┌─────────────────────┐
+│ ASP.NET Core Web API│
+│ (Service Layer)     │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ Entity Framework    │
+│ Core                │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ SQL Server LocalDB  │
+└─────────────────────┘
+```
 
 ---
 
 # Features
 
 ## Client Management
-- Create, edit, view, and delete clients
-- Store client contact details and regions
-- Search clients by name
-- Filter clients by region
+
+* Create clients
+* Edit clients
+* Delete clients
+* View client details
+* Search clients
+* Filter clients by region
+* API-integrated CRUD operations
 
 ---
 
 ## Contract Management
-- Create and manage contracts
-- Upload signed agreement PDF files
-- Download uploaded agreements
-- Search and filter contracts
-- Filter by:
-  - Status
-  - Start Date
-  - End Date
+
+* Create contracts
+* Edit contracts
+* Delete contracts
+* View contract details
+* Upload signed PDF agreements
+* Download agreements
+* Track contract status
+* Filter by:
+
+  * Status
+  * Start Date
+  * End Date
+* API-integrated CRUD operations
 
 ### Contract Statuses
-- Active
-- Expired
-- On Hold
-- Draft
+
+* Draft
+* Active
+* Expired
+* On Hold
 
 ---
 
 ## Service Request Management
-- Create service requests linked to contracts
-- Automatically convert USD costs to ZAR
-- Track request progress
+
+* Create service requests
+* Edit service requests
+* Delete service requests
+* View service request details
+* Link requests to contracts
+* Track request progress
+* API-integrated CRUD operations
 
 ### Request Statuses
-- Pending
-- In Progress
-- Completed
+
+* Pending
+* In Progress
+* Completed
 
 ---
 
-## Dashboard Analytics
-- Enterprise-style dashboard
-- Statistics cards
-- Quick actions panel
-- Recent activity section
-- Responsive design
-- Modern SaaS-inspired UI
+## Currency Conversion
+
+* Automatic USD to ZAR conversion
+* External Exchange Rate API integration
+* Real-time currency calculations
 
 ---
 
-## File Validation
-- PDF-only upload validation
-- File size validation
-- Secure file handling
+## File Management
+
+* PDF agreement uploads
+* PDF validation
+* File size validation
+* Secure file handling
+* Agreement downloads
 
 ---
 
-## Currency Conversion API
-- Real-time USD to ZAR conversion
-- External exchange rate API integration
-- Automated currency calculations
+## Swagger API Documentation
+
+The Web API includes:
+
+* Swagger UI
+* Endpoint testing
+* Request/Response inspection
+* API documentation
+
+Endpoints include:
+
+```text
+/api/Clients
+/api/Contracts
+/api/ServiceRequests
+```
 
 ---
 
-## Unit Testing
-The project includes xUnit testing for:
-- Currency conversion logic
-- File validation logic
-- Business service testing
+## Data Transfer Objects (DTOs)
+
+DTOs are used to:
+
+* Separate API contracts from entities
+* Improve security
+* Reduce over-posting risks
+* Simplify API communication
+
+Implemented DTOs include:
+
+```text
+CreateContractDto
+UpdateContractDto
+UpdateContractStatusDto
+```
 
 ---
 
 # Technologies Used
 
 ## Backend
-- ASP.NET Core MVC
-- C#
-- Entity Framework Core
-- SQL Server LocalDB
+
+* ASP.NET Core Web API
+* ASP.NET Core MVC
+* C#
+* Entity Framework Core
+* SQL Server LocalDB
 
 ---
 
 ## Frontend
-- Razor Views
-- Bootstrap 5
-- Bootstrap Icons
-- Custom CSS
+
+* Razor Views
+* Bootstrap 5
+* Bootstrap Icons
+* Custom CSS
+
+---
+
+## API Technologies
+
+* RESTful API
+* Swagger/OpenAPI
+* DTO Pattern
+* HttpClient
 
 ---
 
 ## Testing
-- xUnit
-- Microsoft.NET.Test.Sdk
+
+* xUnit
+* Microsoft.NET.Test.Sdk
 
 ---
 
-## APIs
-- Exchange Rate API
+## External Services
 
----
-
-# Application Screenshots
-
----
-
-## Dashboard
-
-![Dashboard](images/DashboardView.jpeg)
-
-The enterprise dashboard provides:
-- analytics cards
-- quick actions
-- recent activity
-- centralized management
-
----
-
-## Client Management
-
-![Clients](images/ClientView.jpeg)
-
-The client module allows administrators to:
-- create clients
-- search clients
-- filter by region
-- manage customer information
-
----
-
-## Contract Management
-
-![Contracts](images/ContractView.jpeg)
-
-The contracts module supports:
-- contract filtering
-- PDF agreement downloads
-- status tracking
-- service level management
-
----
-
-## Unit Testing
-
-![Unit Tests](images/UnitTest.jpeg)
-
-The project includes successful xUnit tests for:
-- currency conversion
-- file validation
-- business logic services
+* Exchange Rate API
 
 ---
 
 # Project Structure
 
 ```text
-SmartContractHub/
+GLMS Solution
 │
-├── Controllers/
-├── Models/
-├── Views/
-├── Services/
-├── Data/
-├── wwwroot/
+├── GLMS.API
+│   ├── Controllers
+│   ├── DTOs
+│   ├── Models
+│   ├── Data
+│   └── Swagger
 │
-├── images/
-│   ├── DashboardView.jpeg
-│   ├── ClientView.jpeg
-│   ├── ContractView.jpeg
-│   └── UnitTest.jpeg
+├── GMLS_Part2
+│   ├── Controllers
+│   ├── Models
+│   ├── Views
+│   ├── Services
+│   ├── Data
+│   └── wwwroot
 │
-├── GMLS_Part2.Tests/
+├── GMLS_Part2.Tests
 │
 └── README.md
 ```
@@ -187,121 +230,115 @@ SmartContractHub/
 
 ## 1. Clone Repository
 
-Open:
-
-```text
-GitHub Desktop
-```
-
-OR clone using:
-
-```text
+```bash
 git clone https://github.com/DGMadombolo/GMLS_Part2.git
 ```
 
 ---
 
-## 2. Open the Project
+## 2. Open Solution
 
-Open the solution file in:
+Open:
 
 ```text
 Visual Studio 2022
 ```
 
----
-
-## 3. Restore NuGet Packages
-
-In Visual Studio:
+Load:
 
 ```text
-Tools
-→ NuGet Package Manager
-→ Manage NuGet Packages for Solution
+GLMS Solution.sln
 ```
 
-Restore all missing packages.
+---
+
+## 3. Restore Packages
+
+```text
+Build
+→ Restore NuGet Packages
+```
 
 ---
 
 ## 4. Configure Database
 
-Open:
-
-```text
-Package Manager Console
-```
-
-Run:
+Open Package Manager Console:
 
 ```powershell
 Update-Database
 ```
 
-This will create the SQL Server LocalDB database automatically.
+---
+
+## 5. Run Multiple Startup Projects
+
+Configure:
+
+```text
+GLMS.API
+GMLS_Part2
+```
+
+as startup projects.
 
 ---
 
-## 5. Run the Application
+## 6. Run Application
 
-Press:
+Start both projects:
 
 ```text
-Ctrl + F5
+F5
 ```
 
-OR click:
+Swagger:
 
 ```text
-Start Without Debugging
+https://localhost:7152/swagger
+```
+
+MVC:
+
+```text
+https://localhost:<mvc-port>
 ```
 
 ---
 
-# Requirements
+# Integration Achievements
 
-- Windows 10/11
-- Visual Studio 2022
-- SQL Server LocalDB
-- .NET 8 SDK
+Completed:
 
----
-
-# Unit Testing
-
-Run tests using:
-
-```text
-Test Explorer
-```
-
-OR using Package Manager Console:
-
-```powershell
-dotnet test
-```
+* MVC to API communication
+* CRUD operations through API
+* Swagger testing
+* DTO implementation
+* Service-Oriented Architecture
+* Entity Framework Core integration
 
 ---
 
 # Future Improvements
 
-- Authentication & Authorization
-- Role-based access
-- Email notifications
-- Real-time dashboard analytics
-- Chart.js integration
-- Cloud deployment
-- Dark mode
-- Audit logging
+* Authentication & Authorization
+* Role-Based Access Control (RBAC)
+* Email Notifications
+* Docker Containerization
+* CI/CD Pipeline
+* Azure Deployment
+* Real-Time Analytics
+* Dashboard Charts
+* Audit Logging
 
 ---
 
 # Developer
 
-Developed by:
+Lucky Mkhatshwa
 
-## Lucky Mkhatshwa
+Advanced Diploma ICT
+Backend Development | ASP.NET Core | Entity Framework Core | Docker | Azure
 
 ---
 
