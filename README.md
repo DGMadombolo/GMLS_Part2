@@ -1,6 +1,6 @@
 # SmartContract Hub (GLMS Part 2)
 
-SmartContract Hub is a modern enterprise-style ASP.NET Core solution built using a Service-Oriented Architecture (SOA) approach.
+SmartContract Hub is a modern enterprise-style ASP.NET Core solution developed using a Service-Oriented Architecture (SOA) approach. The application separates presentation, business services, and data access into independent layers to improve maintainability, scalability, and reusability.
 
 The solution consists of:
 
@@ -10,6 +10,8 @@ The solution consists of:
 * SQL Server LocalDB
 * Swagger/OpenAPI Documentation
 * DTO-based API Communication
+* Automated Integration Testing
+* Docker Containerization Support
 
 The platform enables organizations to manage clients, contracts, service requests, agreement documentation, and automated currency conversion through a centralized management system.
 
@@ -22,28 +24,23 @@ The platform enables organizations to manage clients, contracts, service request
 │ ASP.NET Core MVC    │
 │ (Presentation Layer)│
 └──────────┬──────────┘
-           │ HTTP Calls
+           │ HttpClient
            ▼
 ┌─────────────────────┐
 │ ASP.NET Core Web API│
 │ (Service Layer)     │
 └──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ Entity Framework    │
-│ Core                │
-└──────────┬──────────┘
-           │
+           │ EF Core
            ▼
 ┌─────────────────────┐
 │ SQL Server LocalDB  │
+│ (Data Layer)        │
 └─────────────────────┘
 ```
 
 ---
 
-# Features
+# Key Features
 
 ## Client Management
 
@@ -52,8 +49,8 @@ The platform enables organizations to manage clients, contracts, service request
 * Delete clients
 * View client details
 * Search clients
-* Filter clients by region
-* API-integrated CRUD operations
+* Filter clients
+* API-driven CRUD operations
 
 ---
 
@@ -65,13 +62,9 @@ The platform enables organizations to manage clients, contracts, service request
 * View contract details
 * Upload signed PDF agreements
 * Download agreements
-* Track contract status
-* Filter by:
-
-  * Status
-  * Start Date
-  * End Date
-* API-integrated CRUD operations
+* Contract status tracking
+* Date filtering
+* Service level management
 
 ### Contract Statuses
 
@@ -89,8 +82,9 @@ The platform enables organizations to manage clients, contracts, service request
 * Delete service requests
 * View service request details
 * Link requests to contracts
-* Track request progress
-* API-integrated CRUD operations
+* Request status tracking
+* Automatic currency conversion
+* Contract validation rules
 
 ### Request Statuses
 
@@ -100,21 +94,14 @@ The platform enables organizations to manage clients, contracts, service request
 
 ---
 
-## Currency Conversion
+## Business Rules
 
-* Automatic USD to ZAR conversion
-* External Exchange Rate API integration
-* Real-time currency calculations
+Implemented business validation includes:
 
----
-
-## File Management
-
-* PDF agreement uploads
-* PDF validation
-* File size validation
-* Secure file handling
-* Agreement downloads
+* Requests cannot be created for expired contracts.
+* Requests cannot be created for contracts on hold.
+* Automatic USD to ZAR conversion.
+* PDF file validation before upload.
 
 ---
 
@@ -122,12 +109,12 @@ The platform enables organizations to manage clients, contracts, service request
 
 The Web API includes:
 
-* Swagger UI
+* Interactive Swagger UI
 * Endpoint testing
 * Request/Response inspection
 * API documentation
 
-Endpoints include:
+Available endpoints:
 
 ```text
 /api/Clients
@@ -137,22 +124,72 @@ Endpoints include:
 
 ---
 
-## Data Transfer Objects (DTOs)
+## DTO Implementation
 
-DTOs are used to:
+The API uses DTOs to:
 
-* Separate API contracts from entities
-* Improve security
-* Reduce over-posting risks
-* Simplify API communication
+* Separate API contracts from database entities.
+* Prevent over-posting attacks.
+* Improve maintainability.
+* Control data exposure.
 
-Implemented DTOs include:
+Implemented DTOs:
 
 ```text
 CreateContractDto
 UpdateContractDto
 UpdateContractStatusDto
 ```
+
+---
+
+## Automated Testing
+
+The project includes automated testing using xUnit.
+
+### Unit Tests
+
+* CurrencyServiceTests
+* FileValidationServiceTests
+
+### Integration Tests
+
+* ClientsApiTests
+* ContractsApiTests
+* ServiceRequestsApiTests
+
+### Test Results
+
+```text
+11 Tests Passed
+0 Failed
+0 Skipped
+```
+
+---
+
+## Docker Containerization
+
+Docker support has been implemented using:
+
+* Dockerfile (GLMS.API)
+* Dockerfile (GMLS_Part2)
+* docker-compose.yml
+* docker-compose.override.yml
+
+Container architecture:
+
+```text
+glms-frontend-web
+        │
+        ▼
+glms-backend-api
+        │
+        ▼
+sql-server-db
+```
+
+Docker Compose is used to orchestrate communication between services and ensure consistency across environments.
 
 ---
 
@@ -166,16 +203,12 @@ UpdateContractStatusDto
 * Entity Framework Core
 * SQL Server LocalDB
 
----
-
 ## Frontend
 
 * Razor Views
 * Bootstrap 5
 * Bootstrap Icons
 * Custom CSS
-
----
 
 ## API Technologies
 
@@ -184,14 +217,16 @@ UpdateContractStatusDto
 * DTO Pattern
 * HttpClient
 
----
-
 ## Testing
 
 * xUnit
 * Microsoft.NET.Test.Sdk
+* Integration Testing
 
----
+## Containerization
+
+* Docker
+* Docker Compose
 
 ## External Services
 
@@ -199,122 +234,18 @@ UpdateContractStatusDto
 
 ---
 
-# Project Structure
-
-```text
-GLMS Solution
-│
-├── GLMS.API
-│   ├── Controllers
-│   ├── DTOs
-│   ├── Models
-│   ├── Data
-│   └── Swagger
-│
-├── GMLS_Part2
-│   ├── Controllers
-│   ├── Models
-│   ├── Views
-│   ├── Services
-│   ├── Data
-│   └── wwwroot
-│
-├── GMLS_Part2.Tests
-│
-└── README.md
-```
-
----
-
-# Setup Instructions
-
-## 1. Clone Repository
-
-```bash
-git clone https://github.com/DGMadombolo/GMLS_Part2.git
-```
-
----
-
-## 2. Open Solution
-
-Open:
-
-```text
-Visual Studio 2022
-```
-
-Load:
-
-```text
-GLMS Solution.sln
-```
-
----
-
-## 3. Restore Packages
-
-```text
-Build
-→ Restore NuGet Packages
-```
-
----
-
-## 4. Configure Database
-
-Open Package Manager Console:
-
-```powershell
-Update-Database
-```
-
----
-
-## 5. Run Multiple Startup Projects
-
-Configure:
-
-```text
-GLMS.API
-GMLS_Part2
-```
-
-as startup projects.
-
----
-
-## 6. Run Application
-
-Start both projects:
-
-```text
-F5
-```
-
-Swagger:
-
-```text
-https://localhost:7152/swagger
-```
-
-MVC:
-
-```text
-https://localhost:<mvc-port>
-```
-
----
-
 # Integration Achievements
 
-Completed:
+Successfully completed:
 
+* Service-Oriented Architecture (SOA)
 * MVC to API communication
+* HttpClient integration
 * CRUD operations through API
 * Swagger testing
 * DTO implementation
-* Service-Oriented Architecture
+* Automated testing
+* Docker containerization setup
 * Entity Framework Core integration
 
 ---
@@ -324,9 +255,8 @@ Completed:
 * Authentication & Authorization
 * Role-Based Access Control (RBAC)
 * Email Notifications
-* Docker Containerization
-* CI/CD Pipeline
 * Azure Deployment
+* CI/CD Pipeline
 * Real-Time Analytics
 * Dashboard Charts
 * Audit Logging
@@ -338,7 +268,8 @@ Completed:
 Lucky Mkhatshwa
 
 Advanced Diploma ICT
-Backend Development | ASP.NET Core | Entity Framework Core | Docker | Azure
+
+Backend Development | ASP.NET Core | Entity Framework Core | Docker | Azure | REST APIs
 
 ---
 
