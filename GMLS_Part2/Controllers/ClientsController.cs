@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GMLS_Part2.Data;
 using GMLS_Part2.Models;
+using GMLS_Part2.Services;
 
 namespace GMLS_Part2.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ApiService _apiService;
 
-        public ClientsController(AppDbContext context)
+        public ClientsController(ApiService apiService)
         {
-            _context = context;
+            _apiService = apiService;
         }
 
         // =====================================================
@@ -22,7 +21,8 @@ namespace GMLS_Part2.Controllers
             string? searchTerm,
             string? region)
         {
-            var clients = _context.Clients
+            var clients = (await _apiService
+                .GetClientsAsync())
                 .AsQueryable();
 
             // =============================================
@@ -45,7 +45,7 @@ namespace GMLS_Part2.Controllers
                     c.Region.Contains(region));
             }
 
-            return View(await clients.ToListAsync());
+            return View(clients.ToList());
         }
 
         // =====================================================
@@ -57,8 +57,8 @@ namespace GMLS_Part2.Controllers
             if (id == null)
                 return NotFound();
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client =
+                await _apiService.GetClientAsync(id.Value);
 
             if (client == null)
                 return NotFound();
@@ -87,9 +87,7 @@ namespace GMLS_Part2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(client);
-
-                await _context.SaveChangesAsync();
+                await _apiService.CreateClientAsync(client);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -107,7 +105,7 @@ namespace GMLS_Part2.Controllers
                 return NotFound();
 
             var client =
-                await _context.Clients.FindAsync(id);
+                await _apiService.GetClientAsync(id.Value);
 
             if (client == null)
                 return NotFound();
@@ -131,19 +129,7 @@ namespace GMLS_Part2.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(client);
-
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                        return NotFound();
-
-                    throw;
-                }
+                await _apiService.UpdateClientAsync(client);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -160,8 +146,8 @@ namespace GMLS_Part2.Controllers
             if (id == null)
                 return NotFound();
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client =
+                await _apiService.GetClientAsync(id.Value);
 
             if (client == null)
                 return NotFound();
@@ -178,27 +164,9 @@ namespace GMLS_Part2.Controllers
         public async Task<IActionResult> DeleteConfirmed(
             int id)
         {
-            var client =
-                await _context.Clients.FindAsync(id);
-
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-
-                await _context.SaveChangesAsync();
-            }
+            await _apiService.DeleteClientAsync(id);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        // =====================================================
-        // EXISTS
-        // =====================================================
-
-        private bool ClientExists(int id)
-        {
-            return _context.Clients
-                .Any(e => e.Id == id);
         }
     }
 }

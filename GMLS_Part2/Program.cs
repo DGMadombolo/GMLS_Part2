@@ -15,17 +15,22 @@ builder.Services.AddControllersWithViews();
 // =====================================================
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration
-            .GetConnectionString("DefaultConnection")));
+options.UseSqlServer(
+builder.Configuration
+.GetConnectionString("DefaultConnection")));
 
 // =====================================================
 // REGISTER CUSTOM SERVICES
 // =====================================================
 
-// Currency API Service
+// Currency Service
 
 builder.Services.AddHttpClient<CurrencyService>();
+
+// API Service
+
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ApiService>();
 
 // File Validation Service
 
@@ -44,7 +49,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-
     app.UseHsts();
 }
 
@@ -65,9 +69,9 @@ app.MapStaticAssets();
 // =====================================================
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+name: "default",
+pattern: "{controller=Home}/{action=Index}/{id?}")
+.WithStaticAssets();
 
 // =====================================================
 // RUN APPLICATION

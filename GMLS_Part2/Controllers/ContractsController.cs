@@ -10,13 +10,16 @@ namespace GMLS_Part2.Controllers
     public class ContractsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ApiService _apiService;
         private readonly FileValidationService _fileValidationService;
 
         public ContractsController(
             AppDbContext context,
+            ApiService apiService,
             FileValidationService fileValidationService)
         {
             _context = context;
+            _apiService = apiService;
             _fileValidationService =
                 fileValidationService;
         }
@@ -138,9 +141,10 @@ namespace GMLS_Part2.Controllers
             DateTime? startDate,
             DateTime? endDate)
         {
-            var contracts = _context.Contracts
-                .Include(c => c.Client)
+            var contracts = (await _apiService
+                .GetContractsAsync())
                 .AsQueryable();
+                
 
             // FILTER STATUS
 
@@ -170,7 +174,7 @@ namespace GMLS_Part2.Controllers
             }
 
             return View(
-                await contracts.ToListAsync());
+                contracts.ToList());
         }
 
         // =====================================================
@@ -183,10 +187,9 @@ namespace GMLS_Part2.Controllers
             if (id == null)
                 return NotFound();
 
-            var contract = await _context.Contracts
-                .Include(c => c.Client)
-                .FirstOrDefaultAsync(
-                    c => c.Id == id);
+            var contract = await _apiService.GetContractAsync(
+                id.Value);
+                
 
             if (contract == null)
                 return NotFound();
@@ -215,6 +218,19 @@ namespace GMLS_Part2.Controllers
         public async Task<IActionResult> Create(
             Contract contract)
         {
+            Console.WriteLine($"ServiceLevel: '{contract.ServiceLevel}'");
+            Console.WriteLine($"ClientId: {contract.ClientId}");
+
+            foreach (var key in ModelState.Keys)
+            {
+                var value = ModelState[key];
+                if (value?.Errors.Count > 0)
+                {
+                    Console.WriteLine(
+                        $"{key}: {string.Join(", ", value.Errors.Select(e => e.ErrorMessage))}");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 // =====================================
@@ -247,12 +263,11 @@ namespace GMLS_Part2.Controllers
                         fileUrl;
                 }
 
-                _context.Contracts.Add(contract);
 
-                await _context.SaveChangesAsync();
 
-                return RedirectToAction(
-                    nameof(Index));
+                await _apiService.CreateContractAsync(contract);
+
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.ClientId =
@@ -354,9 +369,9 @@ namespace GMLS_Part2.Controllers
                             .SignedAgreementPath;
                     }
 
-                    _context.Update(contract);
 
-                    await _context.SaveChangesAsync();
+
+                    await _apiService.UpdateContractAsync(contract);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -420,9 +435,9 @@ namespace GMLS_Part2.Controllers
                 DeleteFileIfExists(
                     contract.SignedAgreementPath);
 
-                _context.Contracts.Remove(contract);
+               
 
-                await _context.SaveChangesAsync();
+                await _apiService.DeleteContractAsync(id);
             }
 
             return RedirectToAction(

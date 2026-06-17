@@ -11,13 +11,17 @@ namespace GMLS_Part2.Controllers
     {
         private readonly AppDbContext _context;
         private readonly CurrencyService _currencyService;
+        private readonly ApiService _apiService;
 
-        public ServiceRequestsController(
-            AppDbContext context,
-            CurrencyService currencyService)
+
+    public ServiceRequestsController(
+        AppDbContext context,
+        CurrencyService currencyService,
+        ApiService apiService)
         {
             _context = context;
             _currencyService = currencyService;
+            _apiService = apiService;
         }
 
         // =====================================================
@@ -28,13 +32,9 @@ namespace GMLS_Part2.Controllers
             RequestStatus? status,
             string? searchTerm)
         {
-            var serviceRequests = _context.ServiceRequests
-                .Include(s => s.Contract)
+            var serviceRequests = (await _apiService
+                .GetServiceRequestsAsync())
                 .AsQueryable();
-
-            // =============================================
-            // FILTER BY STATUS
-            // =============================================
 
             if (status.HasValue)
             {
@@ -43,10 +43,6 @@ namespace GMLS_Part2.Controllers
                         s.Status == status.Value);
             }
 
-            // =============================================
-            // SEARCH DESCRIPTION
-            // =============================================
-
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
                 serviceRequests = serviceRequests
@@ -54,7 +50,7 @@ namespace GMLS_Part2.Controllers
                         s.Description.Contains(searchTerm));
             }
 
-            return View(await serviceRequests.ToListAsync());
+            return View(serviceRequests.ToList());
         }
 
         // =====================================================
@@ -66,9 +62,8 @@ namespace GMLS_Part2.Controllers
             if (id == null)
                 return NotFound();
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(s => s.Contract)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var serviceRequest =
+                await _apiService.GetServiceRequestAsync(id.Value);
 
             if (serviceRequest == null)
                 return NotFound();
@@ -99,10 +94,6 @@ namespace GMLS_Part2.Controllers
         public async Task<IActionResult> Create(
             ServiceRequest serviceRequest)
         {
-            // =============================================
-            // CHECK CONTRACT
-            // =============================================
-
             var contract = await _context.Contracts
                 .FirstOrDefaultAsync(c =>
                     c.Id == serviceRequest.ContractId);
@@ -126,22 +117,15 @@ namespace GMLS_Part2.Controllers
                     "Cannot create requests for contracts on hold.");
             }
 
-            // =============================================
-            // SAVE REQUEST
-            // =============================================
-
             if (ModelState.IsValid)
             {
-                // AUTO CONVERT USD → ZAR
-
                 serviceRequest.CostZAR =
                     await _currencyService
                         .ConvertUsdToZarAsync(
                             serviceRequest.CostUSD);
 
-                _context.ServiceRequests.Add(serviceRequest);
-
-                await _context.SaveChangesAsync();
+                await _apiService
+                    .CreateServiceRequestAsync(serviceRequest);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -165,7 +149,7 @@ namespace GMLS_Part2.Controllers
                 return NotFound();
 
             var serviceRequest =
-                await _context.ServiceRequests.FindAsync(id);
+                await _apiService.GetServiceRequestAsync(id.Value);
 
             if (serviceRequest == null)
                 return NotFound();
@@ -196,22 +180,17 @@ namespace GMLS_Part2.Controllers
             {
                 try
                 {
-                    // AUTO RECALCULATE USD → ZAR
-
                     serviceRequest.CostZAR =
                         await _currencyService
                             .ConvertUsdToZarAsync(
                                 serviceRequest.CostUSD);
 
-                    _context.Update(serviceRequest);
-
-                    await _context.SaveChangesAsync();
+                    await _apiService
+                        .UpdateServiceRequestAsync(
+                            serviceRequest);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!ServiceRequestExists(serviceRequest.Id))
-                        return NotFound();
-
                     throw;
                 }
 
@@ -236,9 +215,8 @@ namespace GMLS_Part2.Controllers
             if (id == null)
                 return NotFound();
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(s => s.Contract)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var serviceRequest =
+                await _apiService.GetServiceRequestAsync(id.Value);
 
             if (serviceRequest == null)
                 return NotFound();
@@ -254,15 +232,8 @@ namespace GMLS_Part2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var serviceRequest =
-                await _context.ServiceRequests.FindAsync(id);
-
-            if (serviceRequest != null)
-            {
-                _context.ServiceRequests.Remove(serviceRequest);
-
-                await _context.SaveChangesAsync();
-            }
+            await _apiService
+                .DeleteServiceRequestAsync(id);
 
             return RedirectToAction(nameof(Index));
         }
@@ -277,4 +248,6 @@ namespace GMLS_Part2.Controllers
                 .Any(e => e.Id == id);
         }
     }
+
+
 }
