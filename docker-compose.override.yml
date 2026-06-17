@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+
+  glms-backend-api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  glms-frontend-web:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
