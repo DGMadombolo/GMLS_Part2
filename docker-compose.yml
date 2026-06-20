@@ -1,4 +1,5 @@
-version: '3.8'
+
+
 
 services:
 
@@ -14,7 +15,7 @@ services:
   glms-backend-api:
     build:
       context: .
-      dockerfile: GLMS.API/Dockerfile
+      dockerfile: GMLS.API/Dockerfile
     container_name: glms-backend-api
     ports:
       - "7152:8080"
