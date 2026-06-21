@@ -7,172 +7,99 @@ The solution consists of:
 * ASP.NET Core MVC Application (Frontend)
 * ASP.NET Core Web API (Backend Services)
 * Entity Framework Core
-* SQL Server LocalDB
+* SQL Server
 * Swagger/OpenAPI Documentation
 * DTO-based API Communication
 * Automated Integration Testing
-* Docker Containerization Support
+* Docker Containerization
+* Docker Hub Image Publishing
+* GitHub Actions CI/CD Pipeline
 
 The platform enables organizations to manage clients, contracts, service requests, agreement documentation, and automated currency conversion through a centralized management system.
 
 ---
 
-# Architecture
+# CI/CD Pipeline
+
+The project implements a fully automated Continuous Integration and Continuous Deployment (CI/CD) pipeline using GitHub Actions and Docker Hub.
+
+Pipeline workflow:
 
 ```text
-┌─────────────────────┐
-│ ASP.NET Core MVC    │
-│ (Presentation Layer)│
-└──────────┬──────────┘
-           │ HttpClient
-           ▼
-┌─────────────────────┐
-│ ASP.NET Core Web API│
-│ (Service Layer)     │
-└──────────┬──────────┘
-           │ EF Core
-           ▼
-┌─────────────────────┐
-│ SQL Server LocalDB  │
-│ (Data Layer)        │
-└─────────────────────┘
+Developer Push
+        │
+        ▼
+GitHub Repository
+        │
+        ▼
+GitHub Actions
+        │
+        ├── Build Backend Image
+        │
+        ├── Build Frontend Image
+        │
+        ├── Authenticate with Docker Hub
+        │
+        ├── Push Backend Image
+        │
+        └── Push Frontend Image
+        ▼
+Docker Hub
 ```
 
----
+### Automated Workflow
 
-# Key Features
+Every push to the `master` branch automatically:
 
-## Client Management
+* Checks out the repository source code.
+* Authenticates with Docker Hub using GitHub Secrets.
+* Builds the ASP.NET Core Web API Docker image.
+* Builds the ASP.NET Core MVC Docker image.
+* Pushes the latest images to Docker Hub.
+* Maintains deployment-ready container images.
 
-* Create clients
-* Edit clients
-* Delete clients
-* View client details
-* Search clients
-* Filter clients
-* API-driven CRUD operations
+### GitHub Actions Workflow
 
----
-
-## Contract Management
-
-* Create contracts
-* Edit contracts
-* Delete contracts
-* View contract details
-* Upload signed PDF agreements
-* Download agreements
-* Contract status tracking
-* Date filtering
-* Service level management
-
-### Contract Statuses
-
-* Draft
-* Active
-* Expired
-* On Hold
-
----
-
-## Service Request Management
-
-* Create service requests
-* Edit service requests
-* Delete service requests
-* View service request details
-* Link requests to contracts
-* Request status tracking
-* Automatic currency conversion
-* Contract validation rules
-
-### Request Statuses
-
-* Pending
-* In Progress
-* Completed
-
----
-
-## Business Rules
-
-Implemented business validation includes:
-
-* Requests cannot be created for expired contracts.
-* Requests cannot be created for contracts on hold.
-* Automatic USD to ZAR conversion.
-* PDF file validation before upload.
-
----
-
-## Swagger API Documentation
-
-The Web API includes:
-
-* Interactive Swagger UI
-* Endpoint testing
-* Request/Response inspection
-* API documentation
-
-Available endpoints:
+Location:
 
 ```text
-/api/Clients
-/api/Contracts
-/api/ServiceRequests
+.github/workflows/docker-publish.yml
 ```
+
+The workflow uses:
+
+* actions/checkout
+* docker/login-action
+* Docker Build
+* Docker Push
 
 ---
 
-## DTO Implementation
+# Docker Hub Repository
 
-The API uses DTOs to:
+Container images are automatically published to Docker Hub.
 
-* Separate API contracts from database entities.
-* Prevent over-posting attacks.
-* Improve maintainability.
-* Control data exposure.
-
-Implemented DTOs:
+Published Images:
 
 ```text
-CreateContractDto
-UpdateContractDto
-UpdateContractStatusDto
+freshdjstail/gmls-backend-api
+freshdjstail/gmls-frontend-web
 ```
+
+Benefits:
+
+* Centralized image storage.
+* Simplified deployment process.
+* Version-controlled container images.
+* Environment consistency across development, testing, and production.
 
 ---
 
-## Automated Testing
-
-The project includes automated testing using xUnit.
-
-### Unit Tests
-
-* CurrencyServiceTests
-* FileValidationServiceTests
-
-### Integration Tests
-
-* ClientsApiTests
-* ContractsApiTests
-* ServiceRequestsApiTests
-
-### Test Results
-
-```text
-11 Tests Passed
-0 Failed
-0 Skipped
-```
-
----
-
-## Docker Containerization
+# Docker Containerization
 
 Docker support has been implemented using:
 
-* Dockerfile (GLMS.API)
+* Dockerfile (GMLS.API)
 * Dockerfile (GMLS_Part2)
 * docker-compose.yml
 * docker-compose.override.yml
@@ -189,7 +116,64 @@ glms-backend-api
 sql-server-db
 ```
 
-Docker Compose is used to orchestrate communication between services and ensure consistency across environments.
+Container Services:
+
+### Frontend Container
+
+```text
+Container Name:
+glms-frontend-web
+
+Technology:
+ASP.NET Core MVC
+
+Port:
+5000
+```
+
+### Backend Container
+
+```text
+Container Name:
+glms-backend-api
+
+Technology:
+ASP.NET Core Web API
+
+Port:
+7152
+```
+
+### Database Container
+
+```text
+Container Name:
+sql-server-db
+
+Technology:
+Microsoft SQL Server 2022
+
+Port:
+1433
+```
+
+---
+
+# DevOps Achievements
+
+Successfully implemented:
+
+* Docker Image Creation
+* Multi-Container Docker Compose Setup
+* Docker Hub Publishing
+* GitHub Actions Automation
+* CI/CD Pipeline Integration
+* Automated Image Deployment Workflow
+* Linux-based Container Development
+* Service-Oriented Architecture (SOA)
+* RESTful API Development
+* Entity Framework Core Integration
+* Automated Testing
 
 ---
 
@@ -201,7 +185,7 @@ Docker Compose is used to orchestrate communication between services and ensure 
 * ASP.NET Core MVC
 * C#
 * Entity Framework Core
-* SQL Server LocalDB
+* SQL Server
 
 ## Frontend
 
@@ -223,43 +207,18 @@ Docker Compose is used to orchestrate communication between services and ensure 
 * Microsoft.NET.Test.Sdk
 * Integration Testing
 
-## Containerization
+## Containerization & DevOps
 
 * Docker
 * Docker Compose
+* Docker Hub
+* GitHub Actions
+* CI/CD Pipelines
+* Linux (Ubuntu)
 
 ## External Services
 
 * Exchange Rate API
-
----
-
-# Integration Achievements
-
-Successfully completed:
-
-* Service-Oriented Architecture (SOA)
-* MVC to API communication
-* HttpClient integration
-* CRUD operations through API
-* Swagger testing
-* DTO implementation
-* Automated testing
-* Docker containerization setup
-* Entity Framework Core integration
-
----
-
-# Future Improvements
-
-* Authentication & Authorization
-* Role-Based Access Control (RBAC)
-* Email Notifications
-* Azure Deployment
-* CI/CD Pipeline
-* Real-Time Analytics
-* Dashboard Charts
-* Audit Logging
 
 ---
 
@@ -269,7 +228,7 @@ Lucky Mkhatshwa
 
 Advanced Diploma ICT
 
-Backend Development | ASP.NET Core | Entity Framework Core | Docker | Azure | REST APIs
+Backend Developer | ASP.NET Core | Entity Framework Core | Docker | GitHub Actions | CI/CD | Azure | REST APIs | Linux
 
 ---
 
